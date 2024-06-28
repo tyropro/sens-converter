@@ -22,6 +22,10 @@ var newEdpi float64
 var cm360 float64
 var newSens float64
 
+var checkEdpi float64
+
+var sensInaccuracy float64
+
 func init() {
 	flag.Float64Var(&baseSens, "s", 1, "The sensitivity to convert")
 	flag.Float64Var(&baseDpi, "b", 800, "Original DPI to convert from")
@@ -105,12 +109,18 @@ func main() {
 	oldEdpi = baseSens * baseDpi
 
 	if !eDpi {
-		cm360 = gameFromConstant / oldEdpi; // get cm360 of sens
-		newEdpi = gameToConstant / cm360; // get edpi of new game
-		newSens = newEdpi / newDpi; // get sens of new game
+		cm360 = gameFromConstant / oldEdpi // get cm360 of sens
+		newEdpi = gameToConstant / cm360 // get edpi of new game
+		newSens = newEdpi / newDpi // get sens of new game
 	} else {
-		newSens = oldEdpi; // print eDPI if no conversion
+		newSens = oldEdpi // print eDPI if no conversion
 	}
 
-	fmt.Println(roundFloat(newSens, 3))
+	newSens = roundFloat(newSens, 3)
+	
+	checkEdpi = newSens * newDpi
+
+	sensInaccuracy = roundFloat(math.Abs(checkEdpi - oldEdpi) / oldEdpi * 100, 3)
+
+	fmt.Printf("%v (%v%%)", newSens, sensInaccuracy)
 }
