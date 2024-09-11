@@ -6,7 +6,7 @@ This is a tool to convert sensitivities between:
 
 ## Usage
 
-Run the program in a terminal with the `-h flag`.
+Run the program in a terminal with the `-h` flag.
 
 The output should look like: 
 ```
